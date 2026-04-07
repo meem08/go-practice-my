@@ -1,8 +1,19 @@
 package main
 
-import "fmt"
+import (
+	"errors"
+	"fmt"
+)
 
-const Maxtask = 100
+// Define a Task struct with four fields: ID (int), Title (string), Description (string), and IsCompleted (bool).
+	type Task struct {
+		ID int
+		Title string
+		Description string
+		IsCompleted bool
+	}
+
+
 func main() {
 	var currenttask int = 20
 	lasttask := 5.39
@@ -54,18 +65,13 @@ func main() {
 	data := []int{10,20,30,40,50}
 	new := data[1:4]
 	fmt.Println(new)
+
 	// Create a slice with a capacity of 5 using make(), add 5 items to it, and then add a 6th item. Observe how the capacity changes (hint: print cap() before and after the 6th addition).
 	slinew := make([]int, 5)
 	slinew = append(slinew, 4)
 	fmt.Println(cap(slinew))
 
-	// Define a Task struct with four fields: ID (int), Title (string), Description (string), and IsCompleted (bool).
-	type Task struct {
-		ID int
-		Title string
-		Description string
-		IsCompleted bool
-	}
+	
 	// Create a slice of these tasks and write a loop to print only the tasks where IsCompleted is false.
 	taskList := []Task{
 		{ID: 1, Title: "Go", Description: "Basics of Go", IsCompleted: true},
@@ -78,5 +84,66 @@ func main() {
 			fmt.Println(task.IsCompleted)
 		}
 	}
-	fmt.Println()
+	// Create a map[int]Task, populate it with three tasks, then implement a function that deletes a task by ID safely, ensuring the program doesn't crash if the ID doesn't exist.
+	taskMap := make(map[int]Task)
+	taskMap[1] = Task{ID: 1, Title: "Go", Description: "Basics of Go", IsCompleted: true}
+	taskMap[2] = Task{ID: 2, Title: "python", Description: "Basics of python", IsCompleted: false}
+	taskMap[3] = Task{ID: 3, Title: "C++", Description: "Basics of C++", IsCompleted: true}
+
+	DeleteTask(taskMap, 3)
+		
+	fmt.Println(taskMap)
+	// Write a main function that calls Divide with 10 and 2, and another time with 10 and 0. Print the results or the errors accordingly.
+	fmt.Println(Divide(10,0))
+
+	// Create a User struct with fields for Username, Email, and Age. Instantiate a new user and print their email address to the console.
+	type User struct{
+		Username string
+		Email string
+		Age int
+	}
+	User1 := User{"Bakinsuy", "blessing.akinsuyi01@gmail.com", 23}
+	fmt.Println(User1.Email)
+	// Define a Project struct that contains a Name (string) and a slice of Task structs. Initialize a project with two tasks inside it and iterate through them to print their titles.
+	type Project struct{
+		Name string
+		Task Task
+	}
+     
+	 ProjectList := []Project{
+          Project{
+		"Go-learn", Task{ID: 1, Title: "Go", Description: "Basics of Go", IsCompleted: true},	
+	}, 
+	Project{
+		"Python-learn", Task{ID: 1, Title: "Python", Description: "Basics of python", IsCompleted: false},	
+	},
+	}
+	
+
+	for _,list := range ProjectList{
+		fmt.Println(list.Task.Title)
+	}
+
+	
 }
+
+func DeleteTask(taskMap map[int]Task, ID int){
+	value, ok := taskMap[ID]
+	if ok {
+		delete(taskMap, ID)
+		fmt.Println("ID not found", value.ID)
+	} else {
+		fmt.Println("ID found")
+	}
+}
+
+// Create a function Divide(a, b float64) (float64, error). If b is 0, return 0 and a descriptive error using errors.New(). Otherwise, return the result of the division and nil.
+func Divide(a, b float64) (float64, error) {
+	if b == 0 {
+		return 0.0, errors.New("A float number should be passed")
+	} else {
+		return a/b, nil
+	}
+}
+
+// Create a User struct with fields Username and Email. Define a method Display() that returns a string formatted as "User: [Username] (<[Email]>)".
