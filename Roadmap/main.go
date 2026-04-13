@@ -81,7 +81,7 @@ func main() {
 	}
 	for _,task := range taskList{
 		if !task.IsCompleted {
-			fmt.Println(task.IsCompleted)
+			fmt.Println(task.ID, task.Title,task.Description, task.IsCompleted)
 		}
 	}
 	// Create a map[int]Task, populate it with three tasks, then implement a function that deletes a task by ID safely, ensuring the program doesn't crash if the ID doesn't exist.
@@ -97,12 +97,12 @@ func main() {
 	fmt.Println(Divide(10,0))
 
 	// Create a User struct with fields for Username, Email, and Age. Instantiate a new user and print their email address to the console.
-	type User struct{
+	type Userf struct{
 		Username string
 		Email string
 		Age int
 	}
-	User1 := User{"Bakinsuy", "blessing.akinsuyi01@gmail.com", 23}
+	User1 := Userf{"Bakinsuy", "blessing.akinsuyi01@gmail.com", 23}
 	fmt.Println(User1.Email)
 	// Define a Project struct that contains a Name (string) and a slice of Task structs. Initialize a project with two tasks inside it and iterate through them to print their titles.
 	type Project struct{
@@ -118,10 +118,46 @@ func main() {
 		"Python-learn", Task{ID: 1, Title: "Python", Description: "Basics of python", IsCompleted: false},	
 	},
 	}
-	
 
 	for _,list := range ProjectList{
 		fmt.Println(list.Task.Title)
+	}
+	user := User{Username: "Aboy", Email: "aboy20@gmail.com"}
+	fmt.Println(user.Display())
+	u := User{
+		Username: "Seun",
+		Email: "seungood@gmail.com",
+	}
+	fmt.Printf("Before: %+v\n", u)
+	u.UpdateEmail("goodseun@gmail.com")
+	fmt.Printf("After : %+v\n", u)
+
+	var num Myint= 10
+	fmt.Println(num.Double())
+
+	// Write a main function that initializes a slice of Task structs, marks one as complete using your method, and prints its status using the interface.
+	taskIn := []Task{
+		{ID: 1, Title: "Go", Description: "Basics of Go", IsCompleted: true},
+	 	{ID: 2, Title: "python", Description: "Basics of python", IsCompleted: false},
+	 	{ID: 3, Title: "C++", Description: "Basics of C++", IsCompleted: true},
+	 	{ID: 4, Title: "Java", Description: "Basics of Java", IsCompleted: false},
+	}
+	var compact []Completable
+	for i:= range taskIn {
+		compact = append(compact, &taskIn[i])
+	}
+	for _, im := range compact{
+		fmt.Printf("Task done: %v\n", im.IsDone())
+	}
+
+	FizzBuzz(20)
+
+	// Implement a loop that iterates from 1 to 20. Use continue to skip even numbers and break to stop the loop if the counter hits 15.
+	for i:= 1; i <= 20; i++ {
+		if i%2 == 0 {
+		continue
+		}
+		
 	}
 
 	
@@ -147,3 +183,42 @@ func Divide(a, b float64) (float64, error) {
 }
 
 // Create a User struct with fields Username and Email. Define a method Display() that returns a string formatted as "User: [Username] (<[Email]>)".
+type User struct {
+	Username string
+	Email string
+}
+func(t User)Display() string {
+	return "User: " + t.Username + "(" + t.Email + ")"
+}
+// Add a ChangeEmail(newEmail string) method to your User struct using a pointer receiver. Write a main function that creates a user, changes their email, and prints the result to verify the update.
+func (t *User) ChangeEmail(newEmail string) {
+	t.Email= newEmail
+
+}
+// Attempt to define a method on a basic type (e.g., type MyInt int). Can you define a Double() method on it?
+type Myint int 
+
+func (m Myint) Double()Myint{
+	return m*2
+}
+// Create a User struct and add a method UpdateEmail(newEmail string) that uses a pointer receiver to change the user's email address.
+func (u *User) UpdateEmail(newEmail string) {
+	u.Email = newEmail
+}
+// Define an interface named Completable with a method IsDone() bool. Update the Task struct to satisfy this interface by implementing IsDone() to return the value of the Completed field.
+type Completable interface{
+	IsDone() bool
+}
+func (t Task) IsDone() bool {
+	return t.IsCompleted	
+}
+// Write a function that accepts an integer n and prints "Fizz" if n is divisible by 3, "Buzz" if divisible by 5, and "FizzBuzz" if divisible by both. Use a switch statement for the logic.
+func FizzBuzz(n int) { 
+	if n%3 == 0 && n%5 == 0 {
+		fmt.Println("FizzBuzz")
+	} else if n%3 == 0 {
+		fmt.Println("Fizz")
+	} else if n%5 == 0 {
+		fmt.Println("Buzz")
+	}
+}
