@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+     <header>
+        <title>Ascii web</title>
+     </header>
+     <body>
+          <h1>Here is my home page<h1> 
+          <p>Hello people</p>
+          <form action="/generate" method="POST">
+               <input type="text" placeholder="input name" name ="myName"/>
+               <button type="submit">generate</button>
+          </form>
+          <p>{{.Name}}</p>
+     </body>
